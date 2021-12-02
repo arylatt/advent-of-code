@@ -1,34 +1,24 @@
 package main
 
 import (
-	"bufio"
-	"os"
 	"strconv"
 )
 
-func Day1ParseInputFile(path string) ([]int, error) {
+func Day1ParseInputFile(path string) []int {
 	result := []int{}
 
-	file, err := os.Open(path)
-	if err != nil {
-		return result, err
-	}
-	defer file.Close()
+	lines := ParseInputFile(path)
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		val, _ := strconv.Atoi(scanner.Text())
+	for _, line := range lines {
+		val, _ := strconv.Atoi(line)
 		result = append(result, val)
 	}
 
-	return result, nil
+	return result
 }
 
 func Day1Exec(path string) int {
-	inputs, err := Day1ParseInputFile(path)
-	if err != nil {
-		panic(err)
-	}
+	inputs := Day1ParseInputFile(path)
 
 	result := 0
 	previous := inputs[0]
@@ -55,10 +45,7 @@ func Day1GenerateWindows(inputs []int) []int {
 }
 
 func Day1ExecII(path string) int {
-	inputs, err := Day1ParseInputFile(path)
-	if err != nil {
-		panic(err)
-	}
+	inputs := Day1ParseInputFile(path)
 
 	inputs = Day1GenerateWindows(inputs)
 

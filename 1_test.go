@@ -7,10 +7,7 @@ import (
 
 func TestDay1ParseInputFile(t *testing.T) {
 	expected := []int{199, 200, 208, 210, 200, 207, 240, 269, 260, 263}
-	actual, err := Day1ParseInputFile("inputs/1_sample.txt")
-	if err != nil {
-		t.Fatalf("Got an error: %v", err)
-	}
+	actual := Day1ParseInputFile("inputs/1_sample.txt")
 
 	if !reflect.DeepEqual(expected, actual) {
 		t.Fatalf("Expected %v did not match actual %v", expected, actual)
