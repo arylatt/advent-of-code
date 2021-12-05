@@ -22,4 +22,9 @@ func main() {
 	fmt.Printf("Day 4 part 1 answer is %d\r\n", d4_1)
 	d4_2 := Day4ExecII("inputs/4.txt")
 	fmt.Printf("Day 4 part 2 answer is %d\r\n", d4_2)
+
+	d5_1 := Day5Exec("inputs/5.txt")
+	fmt.Printf("Day 5 part 1 answer is %d\r\n", d5_1)
+	d5_2 := Day5ExecII("inputs/5.txt")
+	fmt.Printf("Day 5 part 2 answer is %d\r\n", d5_2)
 }
