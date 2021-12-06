@@ -5,7 +5,6 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 type Lanternfish struct {
@@ -18,13 +17,9 @@ type LanternfishResult struct {
 	Result     int64
 }
 
-var resultsMutex *sync.Mutex = &sync.Mutex{}
 var results []*LanternfishResult = []*LanternfishResult{}
 
 func GetLanternfishResult(cycle, days int) (result *int64) {
-	resultsMutex.Lock()
-	defer resultsMutex.Unlock()
-
 	for _, res := range results {
 		if res.StartCycle == cycle && res.StartDays == days {
 			result = &res.Result
@@ -36,9 +31,6 @@ func GetLanternfishResult(cycle, days int) (result *int64) {
 }
 
 func AddLanternfishResult(cycle, days int, result int64) {
-	resultsMutex.Lock()
-	defer resultsMutex.Unlock()
-
 	for _, res := range results {
 		if res.StartCycle == cycle && res.StartDays == days {
 			if res.Result != result {
@@ -50,30 +42,27 @@ func AddLanternfishResult(cycle, days int, result int64) {
 	results = append(results, &LanternfishResult{StartCycle: cycle, StartDays: days, Result: result})
 }
 
-func (l *Lanternfish) Run(results chan int64, days int) {
-	result := GetLanternfishResult(l.Cycle, days)
-	if result != nil {
-		results <- *result
+func (l *Lanternfish) Run(days int) (result int64) {
+	solved := GetLanternfishResult(l.Cycle, days)
+	if solved != nil {
+		result = *solved
 		return
 	}
 
 	startCycle := l.Cycle
-	res := int64(1)
+	result = 1
 
 	for i := 1; i <= days; i++ {
 		l.Cycle--
 
 		if l.Cycle == -1 {
 			l.Cycle = 6
-			await := make(chan int64, 1)
-			go (&Lanternfish{Cycle: 8}).Run(await, days-i)
-			res += <-await
+			result += (&Lanternfish{Cycle: 8}).Run(days - i)
 		}
 	}
 
-	AddLanternfishResult(startCycle, days, res)
-
-	results <- res
+	AddLanternfishResult(startCycle, days, result)
+	return
 }
 
 func Day6Exec(path string, days int) (answer int64) {
@@ -100,9 +89,7 @@ func Day6Exec(path string, days int) (answer int64) {
 
 	answers := make([]int64, uniqueStates[len(uniqueStates)-1])
 	for _, state := range uniqueStates {
-		results := make(chan int64, 1)
-		go (&Lanternfish{Cycle: state}).Run(results, days)
-		answers[state-1] = <-results
+		answers[state-1] = (&Lanternfish{Cycle: state}).Run(days)
 	}
 
 	for _, state := range states {
