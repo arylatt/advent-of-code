@@ -30,7 +30,6 @@ func main() {
 
 	d6_1 := Day6Exec("inputs/6.txt", 80)
 	fmt.Printf("Day 6 part 1 answer is %d\r\n", d6_1)
-	// very inefficient don't run oh no
-	// d6_2 := Day6Exec("inputs/6.txt", 256)
-	// fmt.Printf("Day 6 part 2 answer is %d\r\n", d6_2)
+	d6_2 := Day6Exec("inputs/6.txt", 256)
+	fmt.Printf("Day 6 part 2 answer is %d\r\n", d6_2)
 }
