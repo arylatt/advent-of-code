@@ -32,4 +32,9 @@ func main() {
 	fmt.Printf("Day 6 part 1 answer is %d\r\n", d6_1)
 	d6_2 := Day6Exec("inputs/6.txt", 256)
 	fmt.Printf("Day 6 part 2 answer is %d\r\n", d6_2)
+
+	d7_1 := Day7Exec("inputs/7.txt")
+	fmt.Printf("Day 7 part 1 answer is %d\r\n", d7_1)
+	d7_2 := Day7ExecII("inputs/7.txt")
+	fmt.Printf("Day 7 part 2 answer is %d\r\n", d7_2)
 }
