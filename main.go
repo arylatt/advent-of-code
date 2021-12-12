@@ -28,7 +28,7 @@ func main() {
 	d5_2 := Day5ExecII("inputs/5.txt")
 	fmt.Printf("Day 5 part 2 answer is %d\r\n", d5_2)
 
-	d6_1 := Day6Exec("inputs/6.txt", 80)
+	d6_1 := Day6Exec("inputs/6.txt", 81)
 	fmt.Printf("Day 6 part 1 answer is %d\r\n", d6_1)
 	d6_2 := Day6Exec("inputs/6.txt", 256)
 	fmt.Printf("Day 6 part 2 answer is %d\r\n", d6_2)
@@ -47,4 +47,14 @@ func main() {
 	fmt.Printf("Day 9 part 1 answer is %d\r\n", d9_1)
 	d9_2 := Day9ExecII("inputs/9.txt")
 	fmt.Printf("Day 9 part 2 answer is %d\r\n", d9_2)
+
+	d10_1 := Day10Exec("inputs/10.txt")
+	fmt.Printf("Day 10 part 1 answer is %d\r\n", d10_1)
+	d10_2 := Day10ExecII("inputs/10.txt")
+	fmt.Printf("Day 10 part 2 answer is %d\r\n", d10_2)
+
+	d11_1 := Day11Exec("inputs/11.txt")
+	fmt.Printf("Day 11 part 1 answer is %d\r\n", d11_1)
+	d11_2 := Day11ExecII("inputs/11.txt")
+	fmt.Printf("Day 11 part 2 answer is %d\r\n", d11_2)
 }
