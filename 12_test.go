@@ -12,7 +12,7 @@ func TestDay12Exec(t *testing.T) {
 }
 
 func TestDay12ExecII(t *testing.T) {
-	expected := 0
+	expected := 3509
 	actual := Day12ExecII("inputs/12_sample.txt")
 
 	if expected != actual {
