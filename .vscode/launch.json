@@ -10,7 +10,8 @@
       "request": "launch",
       "mode": "auto",
       "program": "${fileDirname}",
-      "envFile": "${workspaceFolder}/.env"
+      "envFile": "${workspaceFolder}/.env",
+      "args": ["init", "2022", "--chdir", "${workspaceFolder}"]
     }
   ]
 }
