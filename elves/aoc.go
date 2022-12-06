@@ -16,6 +16,9 @@ const (
 var (
 	// ErrNoSessionCookie is returned when the AOC_SESSION_COOKIE env var is empty
 	ErrNoSessionCookie = errors.New("no session cookie value found in env var aoc_session_cookie")
+
+	// ErrInvalidDay is returned when we get a 404 because the day is not valid
+	ErrInvalidDay = errors.New("invalid day - server returned http 404")
 )
 
 func GetAOCInput(year, day string) (input string, err error) {
@@ -50,6 +53,11 @@ func GetAOCInput(year, day string) (input string, err error) {
 	}
 
 	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNotFound {
+		err = ErrInvalidDay
+		return
+	}
 
 	byteArr, err := io.ReadAll(resp.Body)
 	if err != nil {

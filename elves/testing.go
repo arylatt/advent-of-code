@@ -25,12 +25,16 @@ func SampleFileToTestData(answer string) (td TestData, err error) {
 }
 
 func TestSample(t *testing.T, td TestData, f func(string) string) {
+	t.Helper()
+
 	for input, output := range td {
 		assert.Equal(t, output, f(input))
 	}
 }
 
 func TestReal(t *testing.T, f func(string) string, year, day string) {
+	t.Helper()
+
 	input, err := GetAOCInput(year, day)
 
 	if assert.NoError(t, err) {
