@@ -24,7 +24,7 @@ func TestPart1Sample(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	elves.TestReal(t, Part1, "2021", "5")
+	elves.TestReal(t, Part1, 1, "2021", "5")
 }
 
 func TestPart2Sample(t *testing.T) {
@@ -36,5 +36,5 @@ func TestPart2Sample(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	elves.TestReal(t, Part2, "2021", "5")
+	elves.TestReal(t, Part2, 2, "2021", "5")
 }
