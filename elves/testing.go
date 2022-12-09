@@ -7,12 +7,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var SampleFileName = "testdata/sample.txt"
+const SampleFileName = "testdata/sample.txt"
 
 type TestData map[string]string
 
-func SampleFileToTestData(answer string) (td TestData, err error) {
-	file, err := os.ReadFile(SampleFileName)
+func SampleFileToTestData(answer string, fileName ...string) (td TestData, err error) {
+	if len(fileName) == 0 {
+		fileName = append(fileName, SampleFileName)
+	}
+
+	file, err := os.ReadFile(fileName[0])
 	if err != nil {
 		return
 	}
