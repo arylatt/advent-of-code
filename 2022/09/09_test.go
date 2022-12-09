@@ -12,7 +12,7 @@ const (
 	Sample1Answer = "13"
 
 	// Sample2Answer is the expected answer for sample 2
-	Sample2Answer = "Fill_In_Sample_2_Answer"
+	Sample2Answer = "36"
 )
 
 func TestPart1Sample(t *testing.T) {
@@ -28,7 +28,7 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2Sample(t *testing.T) {
-	td, err := elves.SampleFileToTestData(Sample2Answer)
+	td, err := elves.SampleFileToTestData(Sample2Answer, "testdata/sample2.txt")
 
 	if assert.NoError(t, err) {
 		elves.TestSample(t, td, Part2)
