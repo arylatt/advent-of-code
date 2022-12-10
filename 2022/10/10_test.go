@@ -12,7 +12,12 @@ const (
 	Sample1Answer = "13140"
 
 	// Sample2Answer is the expected answer for sample 2
-	Sample2Answer = "Fill_In_Sample_2_Answer"
+	Sample2Answer = `##..##..##..##..##..##..##..##..##..##..
+###...###...###...###...###...###...###.
+####....####....####....####....####....
+#####.....#####.....#####.....#####.....
+######......######......######......####
+#######.......#######.......#######.....`
 )
 
 func TestPart1Sample(t *testing.T) {
@@ -36,5 +41,11 @@ func TestPart2Sample(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	elves.TestReal(t, Part2, 2, "2022", "10")
+	input, err := elves.GetAOCInput("2022", "10")
+
+	if assert.NoError(t, err) {
+		result := Part2(input)
+
+		t.Logf("Result:\r\n%s\r\n", result)
+	}
 }
