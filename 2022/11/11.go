@@ -55,6 +55,7 @@ func NewMonkey(input []string) (m *Monkey) {
 	}
 
 	m.TestDiv, _ = strconv.ParseUint(strings.TrimPrefix(strings.TrimSpace(input[3]), "Test: divisible by "), 10, 64)
+	tests[m.TestDiv] = true
 	m.TrueMonkey, _ = strconv.Atoi(strings.TrimPrefix(strings.TrimSpace(input[4]), "If true: throw to monkey "))
 	m.FalseMonkey, _ = strconv.Atoi(strings.TrimPrefix(strings.TrimSpace(input[5]), "If false: throw to monkey "))
 
@@ -70,7 +71,8 @@ func (m *Monkey) Inspect() {
 		if worryManaged {
 			item = uint64(math.Floor(float64(item) / 3))
 		} else {
-			// TODO: hmm...
+			// testProduct suggestion from https://www.reddit.com/r/adventofcode/comments/zifqmh/comment/izsn0a4
+			item = item % testProduct
 		}
 
 		if item%m.TestDiv == 0 {
@@ -83,14 +85,22 @@ func (m *Monkey) Inspect() {
 	}
 }
 
-var monkeys = []*Monkey{}
-var worryManaged = true
+var (
+	monkeys             = []*Monkey{}
+	worryManaged        = true
+	tests               = map[uint64]bool{}
+	testProduct  uint64 = 1
+)
 
 func Chase(input string, rounds int) {
 	inputs := strings.Split(strings.ReplaceAll(strings.TrimSpace(input), "\r", ""), "\n")
 
 	for i := 0; i < len(inputs); i += 7 {
 		monkeys = append(monkeys, NewMonkey(inputs[i:i+6]))
+	}
+
+	for k := range tests {
+		testProduct *= k
 	}
 
 	for i := 0; i < rounds; i++ {
