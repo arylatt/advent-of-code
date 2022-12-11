@@ -9,10 +9,10 @@ import (
 
 const (
 	// Sample1Answer is the expected answer for sample 1
-	Sample1Answer = "Fill_In_Sample_1_Answer"
+	Sample1Answer = "10605"
 
 	// Sample2Answer is the expected answer for sample 2
-	Sample2Answer = "Fill_In_Sample_2_Answer"
+	Sample2Answer = "2713310158"
 )
 
 func TestPart1Sample(t *testing.T) {
