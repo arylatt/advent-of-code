@@ -48,7 +48,7 @@ func TestReal(t *testing.T, f func(string) string, level int, year, day string) 
 
 		// ok, err := PostAOCAnswer(year, day, level, result)
 		ok, err := PostAOCAnswer(year, day, level, result)
-		assert.True(t, ok, "If this is false, AOC said no...")
-		assert.NoError(t, err, "AOC submit error")
+		assert.True(t, ok, "If this is false, AoC said no...")
+		assert.NoError(t, err, "AoC submit error")
 	}
 }

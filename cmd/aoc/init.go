@@ -37,7 +37,7 @@ func runEInit(cmd *cobra.Command, args []string) error {
 
 func makeYearDir(year string) error {
 	if _, err := os.Stat(year); os.IsNotExist(err) {
-		mkerr := os.Mkdir(year, os.ModeDir)
+		mkerr := os.Mkdir(year, 0760)
 
 		if mkerr != nil {
 			return mkerr
@@ -91,7 +91,7 @@ func makeDayDir(year string, day int) (skip bool, err error) {
 	skip = true
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		mkerr := os.Mkdir(path, os.ModeDir)
+		mkerr := os.Mkdir(path, 0760)
 
 		if mkerr != nil {
 			return skip, mkerr
@@ -150,10 +150,10 @@ func populateDayDir(year string, day int) error {
 		errorList = append(errorList, err)
 	}
 
-	if err := os.Mkdir(testDataPath, os.ModeDir); err != nil {
+	if err := os.Mkdir(testDataPath, 0760); err != nil {
 		errorList = append(errorList, err)
 	} else {
-		err := os.WriteFile(testDataSamplePath, []byte(""), os.ModeAppend)
+		err := os.WriteFile(testDataSamplePath, []byte(""), 0760)
 		if err != nil {
 			errorList = append(errorList, err)
 		}
