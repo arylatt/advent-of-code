@@ -36,45 +36,43 @@ var (
 	ErrUnexpectedResponsePage = errors.New("unexpected response page from answer submission")
 )
 
-func GetAOCInput(year, day string) (input string, err error) {
+func GetAOCInput(year, day string) (string, error) {
 	url := fmt.Sprintf(AOCInputURLFormat, year, day)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return
+		return "", err
 	}
 
 	if err = aocSessionInject(req); err != nil {
-		return
+		return "", err
 	}
 
 	resp, err := http.DefaultClient.Do(req)
 
 	if err != nil {
-		return
+		return "", err
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusNotFound {
 		err = ErrInvalidDay
-		return
+		return "", err
 	}
 
 	byteArr, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return
+		return "", err
 	}
 
-	input = string(byteArr)
-	return
+	return string(byteArr), nil
 }
 
-func PostAOCAnswer(year, day string, level int, answer string) (ok bool, err error) {
-	ok = true
+func PostAOCAnswer(year, day string, level int, answer string) (bool, error) {
 	answerUrl := fmt.Sprintf(AOCAnswerURLFormat, year, day)
 
 	if os.Getenv("AOC_SUBMIT_ANSWERS") == "" {
-		return
+		return true, nil
 	}
 
 	body := url.Values{}
@@ -83,11 +81,11 @@ func PostAOCAnswer(year, day string, level int, answer string) (ok bool, err err
 
 	req, err := http.NewRequest(http.MethodPost, answerUrl, strings.NewReader(body.Encode()))
 	if err != nil {
-		return
+		return true, err
 	}
 
 	if err = aocSessionInject(req); err != nil {
-		return
+		return true, err
 	}
 
 	req.Header.Add("content-type", "application/x-www-form-urlencoded")
@@ -95,39 +93,34 @@ func PostAOCAnswer(year, day string, level int, answer string) (ok bool, err err
 	resp, err := http.DefaultClient.Do(req)
 
 	if err != nil {
-		return
+		return true, err
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		err = fmt.Errorf("%w; response code %d", ErrUnexpectedResponseCode, resp.StatusCode)
-		return
+		return true, err
 	}
 
 	byteArr, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return
+		return true, err
 	}
 
 	response := string(byteArr)
 	if strings.Contains(response, "You don't seem to be solving the right level.") || strings.Contains(response, "That's the right answer!") {
-		return
+		return true, nil
 	} else if strings.Contains(response, ResponseIncorrect) {
 		indexIn := strings.Index(response, ResponseIncorrect)
 		indexOut := strings.Index(response[indexIn:], "<")
-		err = errors.New(response[indexIn : indexIn+indexOut])
-		ok = false
-		return
+		return false, errors.New(response[indexIn : indexIn+indexOut])
 	} else if strings.Contains(response, ResponseCooldown) {
 		indexIn := strings.Index(response, ResponseCooldown)
 		indexOut := strings.Index(response[indexIn:], "<")
-		err = errors.New(response[indexIn : indexIn+indexOut])
-		ok = false
-		return
+		return false, errors.New(response[indexIn : indexIn+indexOut])
 	} else {
-		err = ErrUnexpectedResponsePage
-		return
+		return true, ErrUnexpectedResponsePage
 	}
 }
 

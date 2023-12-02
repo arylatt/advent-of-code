@@ -11,21 +11,17 @@ const SampleFileName = "testdata/sample.txt"
 
 type TestData map[string]string
 
-func SampleFileToTestData(answer string, fileName ...string) (td TestData, err error) {
+func SampleFileToTestData(answer string, fileName ...string) (TestData, error) {
 	if len(fileName) == 0 {
 		fileName = append(fileName, SampleFileName)
 	}
 
 	file, err := os.ReadFile(fileName[0])
 	if err != nil {
-		return
+		return TestData{}, err
 	}
 
-	td = TestData{
-		string(file): answer,
-	}
-
-	return
+	return TestData{string(file): answer}, nil
 }
 
 func TestSample(t *testing.T, td TestData, f func(string) string) {

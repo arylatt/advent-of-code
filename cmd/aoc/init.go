@@ -84,11 +84,11 @@ func iterateDays(year string) error {
 	return nil
 }
 
-func makeDayDir(year string, day int) (skip bool, err error) {
+func makeDayDir(year string, day int) (bool, error) {
 	dayStr := fmt.Sprintf("%02d", day)
 	path := fmt.Sprintf("%s/%s", year, dayStr)
 
-	skip = true
+	skip := true
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		mkerr := os.Mkdir(path, 0760)
@@ -105,7 +105,7 @@ func makeDayDir(year string, day int) (skip bool, err error) {
 		fmt.Printf("Skipping day %02d directory creation, already exists...\r\n", day)
 	}
 
-	return
+	return skip, nil
 }
 
 func populateDayDir(year string, day int) error {
