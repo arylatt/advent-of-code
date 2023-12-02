@@ -16,6 +16,10 @@ Answers are divided into individual subdirectories for each year and day.
 
 **[zimrh](https://github.com/zimrh)**
 
-[AoC 2021](https://github.com/zimrh/advent-of-code-2021), [AoC 2022](https://github.com/zimrh/advent-of-code-2022)
+[AoC 2021](https://github.com/zimrh/advent-of-code-2021), [AoC 2022](https://github.com/zimrh/advent-of-code-2022), [AoC 2023](https://github.com/zimrh/advent-of-code-2023)
+
+**[CallumLRT](https://github.com/CallumLRT)**
+
+[AoC 2023](https://github.com/CallumLRT/advent-of-code)
 
 ![ooh, friend!](https://media.tenor.com/Y_EhxEaS4MEAAAAC/friend.gif)
