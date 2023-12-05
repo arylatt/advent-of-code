@@ -15,10 +15,10 @@ import (
 var templates embed.FS
 
 var cmdInit = &cobra.Command{
-	Use:       "init year",
+	Use:       "init year [day]",
 	RunE:      runEInit,
 	ValidArgs: []string{"year"},
-	Args:      cobra.ExactArgs(1),
+	Args:      cobra.RangeArgs(1, 2),
 }
 
 func init() {
@@ -30,6 +30,10 @@ func runEInit(cmd *cobra.Command, args []string) error {
 
 	if err := makeYearDir(year); err != nil {
 		return err
+	}
+
+	if len(args) == 2 {
+		return createDayStr(year, args[1])
 	}
 
 	return iterateDays(year)
@@ -51,24 +55,42 @@ func makeYearDir(year string) error {
 	return nil
 }
 
+func createDayStr(year, dayStr string) error {
+	day, err := strconv.Atoi(dayStr)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return err
+	}
+
+	return createDay(year, day)
+}
+
+func createDay(year string, day int) error {
+	skip, err := makeDayDir(year, day)
+
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return err
+	}
+
+	if !skip {
+		if err := populateDayDir(year, day); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return err
+		}
+	}
+
+	return nil
+}
+
 func iterateDays(year string) error {
 	failedDays := []int{}
 
 	for i := 1; i <= 25; i++ {
-		skip, err := makeDayDir(year, i)
+		err := createDay(year, i)
 
 		if err != nil {
 			failedDays = append(failedDays, i)
-			fmt.Fprintln(os.Stderr, err)
-			continue
-		}
-
-		if !skip {
-			err := populateDayDir(year, i)
-			if err != nil {
-				failedDays = append(failedDays, i)
-				fmt.Fprintln(os.Stderr, err)
-			}
 		}
 	}
 
