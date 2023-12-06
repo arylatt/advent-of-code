@@ -3,6 +3,7 @@ package elves
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -38,9 +39,10 @@ func TestReal(t *testing.T, f func(string) string, level int, year, day string) 
 	input, err := GetAOCInput(year, day)
 
 	if assert.NoError(t, err) {
+		start := time.Now()
 		result := f(input)
 
-		t.Logf("Result: '%s'", result)
+		t.Logf("Result: %q in %s", result, time.Since(start).String())
 
 		// ok, err := PostAOCAnswer(year, day, level, result)
 		ok, err := PostAOCAnswer(year, day, level, result)
