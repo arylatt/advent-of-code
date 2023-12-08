@@ -95,7 +95,12 @@ func generateStarMessage(name string, starTexts []string) string {
 		starTexts[lastStar] = "and " + starTexts[lastStar]
 	}
 
-	msg += strings.Join(starTexts, ", ")
+	separator := ", "
+	if len(starTexts) < 2 {
+		separator = " "
+	}
+
+	msg += strings.Join(starTexts, separator)
 	return msg + "."
 }
 

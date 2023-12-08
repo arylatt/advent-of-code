@@ -20,6 +20,8 @@ const (
 
 	ResponseIncorrect = "That's not the right answer"
 	ResponseCooldown  = "You gave an answer too recently"
+
+	LiveFileName = "testdata/input.txt"
 )
 
 var (
@@ -37,6 +39,12 @@ var (
 )
 
 func GetAOCInput(year, day string) (string, error) {
+	if _, err := os.Stat(LiveFileName); err == nil {
+		if cachedBytes, err := os.ReadFile(LiveFileName); err == nil {
+			return string(cachedBytes), nil
+		}
+	}
+
 	url := fmt.Sprintf(AOCInputURLFormat, year, day)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -64,6 +72,8 @@ func GetAOCInput(year, day string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	os.WriteFile(LiveFileName, byteArr, 0760)
 
 	return string(byteArr), nil
 }
