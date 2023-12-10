@@ -22,4 +22,8 @@ Answers are divided into individual subdirectories for each year and day.
 
 [AoC 2023](https://github.com/CallumLRT/advent-of-code)
 
+**[dantdj](https://github.com/dantdj)**
+
+[AoC 2023](https://github.com/dantdj/AdventOfCode)
+
 ![ooh, friend!](https://media.tenor.com/Y_EhxEaS4MEAAAAC/friend.gif)
