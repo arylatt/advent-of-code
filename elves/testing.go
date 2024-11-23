@@ -12,6 +12,21 @@ const SampleFileName = "testdata/sample.txt"
 
 type TestData map[string]string
 
+type TestInput struct {
+	FileName string
+	Answer   string
+}
+
+func (t TestData) Join(td ...TestData) TestData {
+	for _, test := range td {
+		for input, answer := range test {
+			t[input] = answer
+		}
+	}
+
+	return t
+}
+
 func SampleFileToTestData(answer string, fileName ...string) (TestData, error) {
 	if len(fileName) == 0 {
 		fileName = append(fileName, SampleFileName)
@@ -23,6 +38,20 @@ func SampleFileToTestData(answer string, fileName ...string) (TestData, error) {
 	}
 
 	return TestData{string(file): answer}, nil
+}
+
+func TestInputsToTestData(inputs []TestInput) (TestData, error) {
+	testDatas := []TestData{}
+	for _, input := range inputs {
+		td, err := SampleFileToTestData(input.Answer, input.FileName)
+		if err != nil {
+			return TestData{}, err
+		}
+
+		testDatas = append(testDatas, td)
+	}
+
+	return testDatas[0].Join(testDatas[1:]...), nil
 }
 
 func TestSample(t *testing.T, td TestData, f func(string) string) {
