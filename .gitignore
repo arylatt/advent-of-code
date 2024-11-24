@@ -31,3 +31,4 @@ go.work
 
 out/
 **/testdata/input.txt
+**/testdata/token.txt

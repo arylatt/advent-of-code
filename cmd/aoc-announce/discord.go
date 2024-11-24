@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 )
 
 const (
@@ -34,7 +35,8 @@ type (
 )
 
 var (
-	discordClient Discord
+	discordClient   Discord
+	discordClientMu = sync.RWMutex{}
 )
 
 func (d *DiscordClient) SendMessage(message string) error {

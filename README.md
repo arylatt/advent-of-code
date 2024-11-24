@@ -6,6 +6,8 @@ Answers are divided into individual subdirectories for each year and day.
 
 `cmd/aoc` contains a small CLI tool for automatically generating subdirectory structure, pre-populating each day with files to be completed.
 
+`cmd/aoc-announce`, and the associated Docker image, `ghcr.io/arylatt/advent-of-code/aoc-announce:latest`, is a tool for watching a private leaderboard and sending notifications to a Discord channel via a webhook when players complete puzzles.
+
 `elves` is my helper package. It contains functionality to:
 
 * Enable easier testing of the samples provided as part of the challenge descriptions

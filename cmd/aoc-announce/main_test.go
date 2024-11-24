@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"io"
 	"log"
 	"testing"
@@ -48,7 +49,7 @@ func TestInitAOCClient(t *testing.T) {
 	viper.Reset()
 	viper.Set("token", "test")
 
-	c, err := initAOCClient()
+	c, err := initAOCClient(context.Background())
 
 	if assert.NoError(t, err) {
 		assert.IsType(t, &aoc.Client{}, c)
@@ -59,7 +60,7 @@ func TestInitDiscordClient(t *testing.T) {
 	viper.Reset()
 	viper.Set("discord-webhook-url", "test")
 
-	c, err := initDiscordClient()
+	c, err := initDiscordClient(context.Background())
 
 	if assert.NoError(t, err) {
 		assert.IsType(t, &DiscordClient{}, c)

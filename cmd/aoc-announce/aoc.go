@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/arylatt/advent-of-code/aoc"
@@ -15,6 +16,7 @@ var (
 	aocClient    AOCClient
 	tokenFlagged = false
 	leaderboard  aoc.Leaderboard
+	aocClientMu  = sync.RWMutex{}
 )
 
 type AOCClient interface {
@@ -36,11 +38,16 @@ func loop(ctx context.Context, loopTime time.Duration, event, owner string) {
 func getLeaderboard(event, owner string) {
 	log.Println("[getLeaderboard] fetching leaderboard")
 
+	aocClientMu.RLock()
+
 	lb, err := aocClient.Leaderboard(event, owner)
 	if errors.Is(err, aoc.ErrRedirectBlocked) && !tokenFlagged {
+		aocClientMu.RUnlock()
 		flagToken(err)
 		return
 	}
+
+	aocClientMu.RUnlock()
 
 	if err != nil {
 		log.Printf("[getLeaderboard] error fetching leaderboard: %s\n", err)
@@ -69,7 +76,11 @@ func getLeaderboard(event, owner string) {
 }
 
 func processNewMember(member aoc.Member) {
+	discordClientMu.RLock()
+
 	err := discordClient.SendMessage(fmt.Sprintf(":star: %s has joined the leaderboard!", member.Name))
+
+	discordClientMu.RUnlock()
 
 	if err != nil {
 		log.Printf("[processNewMember] error announcing new member %d: %s\n", member.ID, err)
@@ -126,7 +137,11 @@ func processMember(current, previous aoc.Member) {
 		return
 	}
 
+	discordClientMu.RLock()
+
 	err := discordClient.SendMessage(generateStarMessage(current.Name, newStars))
+
+	discordClientMu.RUnlock()
 
 	if err != nil {
 		log.Printf("[processMember] error announcing member update %d: %s\n", current.ID, err)
@@ -137,7 +152,12 @@ func processMember(current, previous aoc.Member) {
 
 func flagToken(err error) {
 	tokenFlagged = true
+
+	discordClientMu.RLock()
+
 	sendErr := discordClient.SendMessage(fmt.Sprintf(":x: AOC token appears to have expired: %s", err))
+
+	discordClientMu.RUnlock()
 
 	if sendErr != nil {
 		log.Printf("[flagToken] error flagging expired token: %s\n", sendErr)

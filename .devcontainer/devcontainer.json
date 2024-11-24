@@ -15,7 +15,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "eriklynd.json-tools"
+        "eriklynd.json-tools",
+        "ms-azuretools.vscode-docker"
       ]
     }
   }
