@@ -16,16 +16,16 @@ Answers are divided into individual subdirectories for each year and day.
 
 ## Friends
 
-**[zimrh](https://github.com/zimrh)**
+**[rmhyde](https://github.com/rmhyde)**
 
-[AoC 2021](https://github.com/zimrh/advent-of-code-2021), [AoC 2022](https://github.com/zimrh/advent-of-code-2022), [AoC 2023](https://github.com/zimrh/advent-of-code-2023)
+[AoC 2021](https://github.com/rmhyde/advent-of-code-2021), [AoC 2022](https://github.com/rmhyde/advent-of-code-2022), [AoC 2023](https://github.com/rmhyde/advent-of-code-2023), [AoC 2024](https://github.com/rmhyde/advent-of-code-2024)
 
 **[CallumLRT](https://github.com/CallumLRT)**
 
-[AoC 2023](https://github.com/CallumLRT/advent-of-code)
+[AoC 2023, 2024](https://github.com/CallumLRT/advent-of-code)
 
 **[dantdj](https://github.com/dantdj)**
 
-[AoC 2023](https://github.com/dantdj/AdventOfCode)
+[AoC 2020, 2023, 2024](https://github.com/dantdj/AdventOfCode)
 
 ![ooh, friend!](https://media.tenor.com/Y_EhxEaS4MEAAAAC/friend.gif)
