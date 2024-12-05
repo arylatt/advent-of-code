@@ -1,6 +1,9 @@
 package elves
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 func SplitIntoLines(input string) []string {
 	inputs := strings.Split(strings.ReplaceAll(strings.TrimSpace(input), "\r", ""), "\n")
@@ -13,4 +16,9 @@ func SplitIntoLines(input string) []string {
 	}
 
 	return ret
+}
+
+func Atoi(s string) int {
+	i, _ := strconv.Atoi(s)
+	return i
 }
