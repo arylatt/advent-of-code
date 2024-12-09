@@ -1,7 +1,9 @@
 package aoc202406
 
 import (
+	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/arylatt/advent-of-code/elves"
 )
@@ -55,5 +57,65 @@ func getGrid(input string) ([]string, int, int, elves.Point) {
 }
 
 func Part2(input string) (output string) {
-	return
+	up, right, down, left := elves.Point{X: 0, Y: -1}, elves.Point{X: 1, Y: 0}, elves.Point{X: 0, Y: 1}, elves.Point{X: -1, Y: 0}
+	grid, maxX, maxY, start := getGrid(input)
+	answer := 0
+	wg := &sync.WaitGroup{}
+
+	for y, line := range grid {
+		for x, char := range line {
+			if char == '#' || char == '^' {
+				continue
+			}
+
+			wg.Add(1)
+
+			go func(x, y int) {
+				points := map[string]int{}
+				current := start
+				direction, directionStr := up, "up"
+
+				for {
+					pointDir := fmt.Sprintf("%s-%s", current, directionStr)
+
+					if _, ok := points[pointDir]; ok {
+						answer++
+						wg.Done()
+						break
+					}
+
+					points[pointDir] = 1
+
+					current = current.Shift(direction.X, direction.Y)
+					if !current.Valid(maxX, maxY) {
+						wg.Done()
+						break
+					}
+
+					if grid[current.Y][current.X] == '#' || current.X == x && current.Y == y {
+						// let's rotate the board.
+						current = current.Shift(-direction.X, -direction.Y)
+
+						if direction.Equals(up) {
+							direction = right
+							directionStr = "right"
+						} else if direction.Equals(right) {
+							direction = down
+							directionStr = "down"
+						} else if direction.Equals(down) {
+							direction = left
+							directionStr = "left"
+						} else {
+							direction = up
+							directionStr = "up"
+						}
+					}
+				}
+			}(x, y)
+		}
+	}
+
+	wg.Wait()
+
+	return strconv.Itoa(answer)
 }

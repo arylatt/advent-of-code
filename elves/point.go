@@ -1,5 +1,7 @@
 package elves
 
+import "fmt"
+
 type Point struct {
 	X int
 	Y int
@@ -18,4 +20,8 @@ func (p1 Point) Shift(x, y int) Point {
 
 func (p Point) Valid(maxX, maxY int) bool {
 	return p.X >= 0 && p.Y >= 0 && p.X <= maxX && p.Y <= maxY
+}
+
+func (p Point) String() string {
+	return fmt.Sprintf("(%d,%d)", p.X, p.Y)
 }
