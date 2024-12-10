@@ -22,3 +22,8 @@ func Atoi(s string) int {
 	i, _ := strconv.Atoi(s)
 	return i
 }
+
+func ParseGrid(input string) ([]string, int, int) {
+	lines := SplitIntoLines(input)
+	return lines, len(lines[0]) - 1, len(lines) - 1
+}
