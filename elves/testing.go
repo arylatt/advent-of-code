@@ -10,6 +10,8 @@ import (
 
 const SampleFileName = "testdata/sample.txt"
 
+var isSample = false
+
 type TestData map[string]string
 
 type TestInput struct {
@@ -56,6 +58,7 @@ func TestInputsToTestData(inputs []TestInput) (TestData, error) {
 
 func TestSample(t *testing.T, td TestData, f func(string) string) {
 	t.Helper()
+	isSample = true
 
 	for input, output := range td {
 		assert.Equal(t, output, f(input))
@@ -64,6 +67,7 @@ func TestSample(t *testing.T, td TestData, f func(string) string) {
 
 func TestReal(t *testing.T, f func(string) string, level int, year, day string) {
 	t.Helper()
+	isSample = false
 
 	input, err := GetAOCInput(year, day)
 
@@ -78,4 +82,8 @@ func TestReal(t *testing.T, f func(string) string, level int, year, day string) 
 		assert.True(t, ok, "If this is false, AoC said no...")
 		assert.NoError(t, err, "AoC submit error")
 	}
+}
+
+func IsSample() bool {
+	return isSample
 }
