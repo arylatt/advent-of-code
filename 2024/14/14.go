@@ -1,7 +1,6 @@
 package aoc202414
 
 import (
-	"math"
 	"regexp"
 	"slices"
 	"strconv"
@@ -134,36 +133,32 @@ func move(robots []Robot, maxX, maxY int, f func([]Robot, int) bool) ([]Robot, i
 }
 
 func Part2(input string) (output string) {
-	findNearbyRobots := func(robots []Robot, _ int) bool {
-		nearbyRobots := 0
-		robotPairs := 0
+	inALine := 30
+
+	findInALine := func(robots []Robot, sec int) bool {
 		for i := range robots {
-			r1 := robots[i].Position
-			for j := range robots {
-				if i == j {
-					continue
-				}
+			if robots[i].Position.X > 102-inALine {
+				continue
+			}
 
-				robotPairs++
-
-				r2 := robots[j].Position
-
-				distance := math.Sqrt(math.Pow(float64(r2.X-r1.X), 2) + math.Pow(float64(r2.Y-r1.Y), 2))
-
-				if distance < 2 {
-					nearbyRobots++
+			j := 1
+			for j = 1; j <= inALine; j++ {
+				if slices.IndexFunc(robots, func(r Robot) bool {
+					return r.Position.X == robots[i].Position.X+j && r.Position.Y == robots[i].Position.Y
+				}) == -1 {
+					break
 				}
 			}
-		}
 
-		if float64(nearbyRobots/robotPairs)*100 >= 75 {
-			return true
+			if j == inALine {
+				return true
+			}
 		}
 
 		return false
 	}
 
 	robots, maxX, maxY := buildGridWithRobots(input)
-	_, sec := move(robots, maxX, maxY, findNearbyRobots)
-	return strconv.Itoa(sec)
+	_, sec := move(robots, maxX, maxY, findInALine)
+	return strconv.Itoa(sec + 1)
 }
