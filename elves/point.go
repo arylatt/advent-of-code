@@ -60,6 +60,26 @@ func (p Point) ManhattanDistance(p1 Point) int {
 	return Abs(p.X-p1.X) + Abs(p.Y-p1.Y)
 }
 
+func (p Point) Invert() Point {
+	return Point{X: -p.X, Y: -p.Y}
+}
+
 func Abs(x int) int {
 	return int(math.Abs(float64(x)))
+}
+
+func PointValidAndNotInRange(excluded []Point, maxX, maxY int) func(Point) bool {
+	return func(p Point) bool {
+		if !p.Valid(maxX, maxY) {
+			return false
+		}
+
+		for _, e := range excluded {
+			if p.Equals(e) {
+				return false
+			}
+		}
+
+		return true
+	}
 }

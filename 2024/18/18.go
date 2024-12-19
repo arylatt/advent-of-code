@@ -15,7 +15,7 @@ func Part1(input string) (output string) {
 
 	obstructions, maxX, maxY, start, end := buildGrid(input, maxIterations)
 
-	weight := func(p1, p2 elves.Point) int { return 1 }
+	weight := func(p1, p2 elves.Point, _ map[elves.Point]elves.Point) int { return 1 }
 	heuristic := func(p elves.Point) int { return p.ManhattanDistance(end) }
 
 	valid := func(p elves.Point) bool {
@@ -32,7 +32,7 @@ func Part1(input string) (output string) {
 		return true
 	}
 
-	path := elves.AStarSolve(start, end, heuristic, weight, elves.DirectionCardinals, valid)
+	path, _ := elves.AStarSolve(start, end, heuristic, weight, elves.DirectionCardinals, valid)
 
 	return strconv.Itoa(len(path) - 1)
 }
@@ -69,7 +69,7 @@ func Part2(input string) (output string) {
 		min = 6
 	}
 
-	weight := func(p1, p2 elves.Point) int { return 1 }
+	weight := func(p1, p2 elves.Point, _ map[elves.Point]elves.Point) int { return 1 }
 
 	for min != max {
 		mid := (min + max) / 2
@@ -92,7 +92,8 @@ func Part2(input string) (output string) {
 			return true
 		}
 
-		if len(elves.AStarSolve(start, end, heuristic, weight, elves.DirectionCardinals, valid)) == 0 {
+		path, _ := elves.AStarSolve(start, end, heuristic, weight, elves.DirectionCardinals, valid)
+		if len(path) == 0 {
 			max = mid
 		} else {
 			min = mid + 1
