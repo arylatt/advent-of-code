@@ -45,7 +45,7 @@ func calculateNextInvalidId(id string) string {
 	mid := len(id) / 2
 	left := id[:mid]
 
-	if (left + left) == id {
+	if (left + left) <= id {
 		leftInt, _ := strconv.Atoi(left)
 		leftInt++
 		left = strconv.Itoa(leftInt)
