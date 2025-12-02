@@ -12,7 +12,7 @@ const (
 	Sample1Answer = "1227775554"
 
 	// Sample2Answer is the expected answer for sample 2
-	Sample2Answer = "Fill_In_Sample_2_Answer"
+	Sample2Answer = "4174379265"
 )
 
 func TestCalculateNextInvalidId(t *testing.T) {

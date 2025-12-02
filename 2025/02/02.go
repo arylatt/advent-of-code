@@ -2,6 +2,7 @@ package aoc202502
 
 import (
 	"math"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -81,6 +82,43 @@ func Part1(input string) (output string) {
 	return strconv.Itoa(answer)
 }
 
+func calculateNextInvalidIdPart2(id string) string {
+	if len(id)%2 != 0 {
+		bytes := []byte(id)
+		slices.Sort(bytes)
+		return strings.Repeat(string(bytes[len(id)-1]), len(id))
+	}
+
+	mid := len(id) / 2
+
+	left, right := id[:mid], id[mid:]
+
+	if left > right {
+		return left + left
+	}
+
+	return right + right
+}
+
 func Part2(input string) (output string) {
-	return
+	inputs := parseInput(input)
+	answer := 0
+
+	for _, pair := range inputs {
+		upperLimit := elves.Atoi(pair[1])
+		nextInvalid := elves.Atoi(calculateNextInvalidIdPart2(pair[0]))
+
+		for nextInvalid <= upperLimit {
+			answer += nextInvalid
+
+			nextVal := nextInvalid + 1
+			if nextVal > upperLimit {
+				break
+			}
+
+			nextInvalid = elves.Atoi(calculateNextInvalidIdPart2(strconv.Itoa(nextVal)))
+		}
+	}
+
+	return strconv.Itoa(answer)
 }
