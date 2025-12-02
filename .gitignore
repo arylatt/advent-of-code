@@ -32,4 +32,4 @@ go.work
 out/
 **/testdata/input.txt
 **/testdata/token.txt
-**/testdata/sample.txt
+**/testdata/sample*.txt
